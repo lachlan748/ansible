@@ -1,0 +1,25 @@
+---
+- name: Backup Config
+  hosts: all
+  gather_facts: no
+  connection: local  
+  tasks:
+    - name: Gathering configuration
+      ios_config:
+        backup: yes
+        provider:
+          authorize: yes 
+      register: switch_backups
+
+ 
+- name: Add R1 & R2 services
+  hosts: 10.0.0.1, 10.0.0.2
+  gather_facts: no
+  connection: local
+  tasks:
+  - ios_config:
+      provider:
+        authorize: yes
+      save_when: always
+      lines:
+        - snmp-server host 10.0.0.100 version 2c test 

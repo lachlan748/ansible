@@ -1,0 +1,12 @@
+---
+- name: Backup Config
+  hosts: all
+  gather_facts: no
+  connection: local  
+  tasks:
+    - name: Gathering configuration
+      ios_config:
+        backup: yes
+        provider:
+          authorize: yes 
+      register: switch_backups

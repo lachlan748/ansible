@@ -1,0 +1,212 @@
+Building configuration...
+
+Current configuration : 3944 bytes
+!
+! Last configuration change at 11:19:00 UTC Fri Nov 9 2018 by ********
+!
+version 16.8
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$zL6v$etSzQP3r5QHfNAYOAQ5Gh0
+!
+aaa new-model
+!
+!
+!
+!
+!
+!
+!
+aaa session-id common
+!
+!
+!
+!
+!
+!
+!
+ip domain name test.com
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+otv isis Site
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-19574832
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-19574832
+ revocation-check none
+ rsakeypair TP-self-signed-19574832
+!
+!
+crypto pki certificate chain TP-self-signed-19574832
+ certificate self-signed 01
+  3082032C 30820214 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  2F312D30 2B060355 04031324 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31393537 34383332 301E170D 31383131 30393130 30383532 
+  5A170D32 30303130 31303030 3030305A 302F312D 302B0603 55040313 24494F53 
+  2D53656C 662D5369 676E6564 2D436572 74696669 63617465 2D313935 37343833 
+  32308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 0A028201 
+  0100D114 AD1E1860 8461B382 39911612 E05234E5 C26B5DCF 69171B2A 745B89B4 
+  2E30D972 D6548794 DEAAF7A0 71E03B3C 1D9917B7 8E150E08 E022BD3A F187A784 
+  D4E8EA83 F1E56EE6 75D0EA14 A3CB8BBD 5A6335D0 9840B238 B9066351 3293F573 
+  89FEEE87 1E7AB61B 0305767D A2E1CBC0 50302D48 9C905B89 D36224CB C6DF4AFF 
+  B1CBF93F 04374DD8 9628659E 596DA274 8E0B58C4 A79B939D 5D0B90EE 6ABF6832 
+  8B410440 4C59E26A A5D3230E CA721E47 9CFD39AE AB1BA04E 872DDA62 0FDA5E60 
+  B98EA8F5 5A034B95 11A8BB91 0B712DE8 E89DBCDA 3976C3DA 6562F2EF 6B78CA8A 
+  34567A4D 53279002 77D5D6D4 A1083859 B551EC25 94B4CBDD 3A75AFF0 08EB5713 
+  23650203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 1490A379 938292FB 22D3CA3E 0C360C7D A28EFD63 42301D06 
+  03551D0E 04160414 90A37993 8292FB22 D3CA3E0C 360C7DA2 8EFD6342 300D0609 
+  2A864886 F70D0101 05050003 82010100 78956F06 466D2689 FD2A2499 A794B35F 
+  0315B319 E8FABCC5 893213F7 93863A42 D3191E76 B6D2EEC4 96A823B5 492538FD 
+  15938A8D 394E085E DC2C1F14 73FC4F5F EC6928A4 811BE328 8A88D7FE EEDD4E24 
+  0488A116 7CF944B4 BB02C3E6 E7CBAAC8 1F1E5EC9 E4A2DE10 6004160A DB7A4730 
+  CB299E6F D42F871D 253689CB 85BA4820 2260D714 F51AA3BC 77C04CCE CB3060D9 
+  4509521D 36BBFFE7 CC356822 0A7B4399 A055A0CC 209BD768 74C6152D 5ADED2B6 
+  3679F603 D6CC93CB 8F27EB74 C6347523 25D63CF4 D3080116 F9C29A60 2449BE12 
+  6F72DB74 CB16858F A8D9B721 408FCEB6 7785D6D7 FB49B984 FC8A36EC 2D133169 
+  4DF27C4D 6C87DB06 2645F75F 4AED314D
+  	quit
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 91VIO2TSBHW
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username ******** privilege 15 secret 5 $1$UFg0$DslBULgA18gJ2u9IyHPVB1
+!
+redundancy
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+ ip ospf 1 area 0
+!
+interface GigabitEthernet1
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet1.12
+ description MY_LABEL_GOES_HERE
+ encapsulation dot1Q 12
+ ip address 10.0.12.1 255.255.255.0
+ ip ospf 1 area 0
+!
+interface GigabitEthernet2
+ ip address 10.0.0.1 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ shutdown
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+ip ssh version 2
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0
+ length 0
+ transport input all
+line vty 1 4
+ transport input all
+line vty 5 15
+!
+wsma agent exec
+!
+wsma agent config
+!
+wsma agent filesys
+!
+wsma agent notify
+!
+!
+end
