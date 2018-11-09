@@ -1,0 +1,29 @@
+---
+- name: Backup Config
+  hosts: all
+  gather_facts: no
+  connection: local  
+  tasks:
+    - name: Gathering configuration
+      eos_config:
+        backup: yes
+        provider:
+          authorize: yes 
+      register: switch_backups
+
+- name: Gather facts
+  hosts: all
+  gather_facts: no
+  connection: local
+  tasks:
+
+  - name: Gather information
+    eos_facts:
+      gather_subset: all
+    register: results
+
+  - debug:
+     msg: "{{ results }}"
+
+  - copy: content="{{ results | to_nice_json }}" dest="./eosfacts.json"
+ 
