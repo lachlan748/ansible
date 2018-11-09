@@ -1,0 +1,25 @@
+---
+- name: Various show commands
+  hosts: pe_routers
+  gather_facts: no
+  connection: local  
+  vars:
+    ansible_connection: network_cli
+    ansible_network_os: ios
+    commands:
+      - show ver
+      - show bgp vpnv4 unicast all
+
+  tasks:
+  - name: Run show commands
+    ios_command:
+      authorize: yes 
+      commands: "{{ commands }}"
+    register: results
+
+  - debug:
+     msg: "{{ results }}"
+
+  - template:
+     src: templates/logfile.j2
+     dest: "./show_commands_{{ inventory_hostname }}.txt"

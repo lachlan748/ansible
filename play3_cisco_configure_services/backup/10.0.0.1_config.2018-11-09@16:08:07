@@ -1,12 +1,12 @@
 Building configuration...
 
-Current configuration : 3944 bytes
+Current configuration : 4025 bytes
 !
-! Last configuration change at 11:19:00 UTC Fri Nov 9 2018 by ********
+! Last configuration change at 16:07:40 UTC Fri Nov 9 2018 by ********
 !
 version 16.8
-service timestamps debug datetime msec
-service timestamps log datetime msec
+service timestamps debug uptime
+service timestamps log uptime
 platform qfp utilization monitor load 80
 no platform punt-keepalive disable-kernel-core
 platform console serial
@@ -35,6 +35,7 @@ aaa session-id common
 !
 !
 !
+no ip domain lookup
 ip domain name test.com
 !
 !
@@ -180,6 +181,8 @@ ip ssh version 2
 !
 !
 !
+snmp-server community test RO
+snmp-server host 10.0.0.100 version 2c test 
 !
 !
 !
