@@ -1,0 +1,29 @@
+---
+- name: Backup Config
+  hosts: all
+  gather_facts: no
+  connection: local  
+  tasks:
+    - name: Gathering configuration
+      eos_config:
+        backup: yes
+        provider:
+          authorize: yes 
+      register: switch_backups
+
+ 
+- name: Add R3 interface detail
+  hosts: all
+  gather_facts: no
+  connection: local
+  tasks:
+  - eos_command:
+      provider:
+        authorize: yes
+      commands:
+        - conf t
+        - interface Ethernet1
+        - ip add 10.0.12.3/24
+        - no shutdown
+        - end
+        - wr mem

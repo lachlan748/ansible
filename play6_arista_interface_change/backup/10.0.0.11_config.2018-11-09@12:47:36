@@ -1,0 +1,35 @@
+! Command: show running-config
+! device: EOSv-R1 (vEOS, EOS-4.20.5F)
+!
+! boot system flash:/EOS.swi
+!
+agent KernelFib environment KERNELFIB_PROGRAM_ALL_ECMP='true'
+!
+switchport default mode routed
+!
+transceiver qsfp default-mode 4x10G
+!
+hostname EOSv-R1
+!
+spanning-tree mode mstp
+!
+enable secret sha512 $6$DqD5EmETHeTUJWht$2BdBXJuJAbv6HvpdPoKL7eR3/y2VvqxrkgGy4aSGFcOexN67BE9WRXSKS9NTrhPGXTFfJrhdEPx4XARuRH6fX0
+no aaa root
+!
+username ******** privilege 15 secret sha512 $6$CDgFafY6iwi4xt6E$OPke1FJSX7kRwVQi59obRdPyagsg3QKEPisqhtrZ8smuldd/c/CS9py9MJskmSnmd9VRn4fC7MnsIRjZ5kKY51
+!
+vlan 12
+   name vlan_12
+!
+interface Ethernet1
+   no switchport
+!
+interface Ethernet2
+   no switchport
+   ip address 10.0.0.11/24
+!
+interface Management1
+!
+ip routing
+!
+end
