@@ -1,0 +1,10 @@
+{% for port in access_ports %}
+interface {{ port }}
+ description {{ access_ports[port]['description'] }}/{{ access_ports[port]['purpose'] }}
+ switchport mode access
+ switchport access vlan {{ access_ports[port]['vlan'] }}
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ no shutdown
+!
+{% endfor %}

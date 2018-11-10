@@ -1,0 +1,4 @@
+---
+- name: Generate VLAN configuration
+  template: src=vlan.j2 dest=./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.001
+

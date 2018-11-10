@@ -1,0 +1,9 @@
+interface GigabitEthernet1/48
+ description Interswitch Trunk
+ load-interval 5
+ switchport trunk allowed vlan add 100
+ switchport trunk allowed vlan add 101
+ switchport trunk allowed vlan add 102
+ switchport mode trunk
+ no shutdown
+!

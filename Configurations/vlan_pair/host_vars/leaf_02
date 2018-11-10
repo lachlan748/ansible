@@ -1,0 +1,26 @@
+---
+access_ports:
+  GigabitEthernet1/1:
+    description: WEB_SERVER_03
+    purpose: blahblah
+    vlan: 100
+  GigabitEthernet1/2:
+    description: APP_SERVER_03
+    purpose: blahblah
+    vlan: 103
+  GigabitEthernet1/3:
+    description: DB_SERVER_03
+    purpose: blahblah
+    vlan: 103
+  GigabitEthernet1/4:
+    description: WEB_SERVER_04
+    purpose: blahblah
+    vlan: 100
+  GigabitEthernet1/5:
+    description: APP_SERVER_04
+    purpose: blahblah
+    vlan: 103
+  GigabitEthernet1/6:
+    description: DB_SERVER_04
+    purpose: blahblah
+    vlan: 103
