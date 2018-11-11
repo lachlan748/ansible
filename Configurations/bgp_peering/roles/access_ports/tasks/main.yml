@@ -1,0 +1,5 @@
+---
+- name: Create access port configuration
+  template: src=access_ports.j2 dest=./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.002
+  when: access_ports is defined
+
