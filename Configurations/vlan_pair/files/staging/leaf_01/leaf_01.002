@@ -1,5 +1,13 @@
+interface GigabitEthernet1/1
+ description WEB_SERVER_01/NIC1
+ switchport mode access
+ switchport access vlan 100
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ no shutdown
+!
 interface GigabitEthernet1/2
- description APP_SERVER_01/blahblah
+ description APP_SERVER_01/NIC1
  switchport mode access
  switchport access vlan 101
  spanning-tree portfast
@@ -7,23 +15,7 @@ interface GigabitEthernet1/2
  no shutdown
 !
 interface GigabitEthernet1/3
- description DB_SERVER_01/blahblah
- switchport mode access
- switchport access vlan 102
- spanning-tree portfast
- spanning-tree bpduguard enable
- no shutdown
-!
-interface GigabitEthernet1/1
- description WEB_SERVER_01/blahblah
- switchport mode access
- switchport access vlan 100
- spanning-tree portfast
- spanning-tree bpduguard enable
- no shutdown
-!
-interface GigabitEthernet1/6
- description DB_SERVER_02/blahblah
+ description DB_SERVER_01/NIC1
  switchport mode access
  switchport access vlan 102
  spanning-tree portfast
@@ -31,7 +23,7 @@ interface GigabitEthernet1/6
  no shutdown
 !
 interface GigabitEthernet1/4
- description WEB_SERVER_02/blahblah
+ description WEB_SERVER_02/NIC1
  switchport mode access
  switchport access vlan 100
  spanning-tree portfast
@@ -39,9 +31,17 @@ interface GigabitEthernet1/4
  no shutdown
 !
 interface GigabitEthernet1/5
- description APP_SERVER_02/blahblah
+ description APP_SERVER_02/NIC1
  switchport mode access
  switchport access vlan 101
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ no shutdown
+!
+interface GigabitEthernet1/6
+ description DB_SERVER_02/NIC1
+ switchport mode access
+ switchport access vlan 102
  spanning-tree portfast
  spanning-tree bpduguard enable
  no shutdown
