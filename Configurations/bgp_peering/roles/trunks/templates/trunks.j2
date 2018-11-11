@@ -1,9 +1,0 @@
-interface GigabitEthernet1/48
- description Interswitch Trunk
- load-interval 5
-{% for vlan in vlans %}
- switchport trunk allowed vlan add {{ vlan.number }}
-{% endfor %}
- switchport mode trunk
- no shutdown
-!
