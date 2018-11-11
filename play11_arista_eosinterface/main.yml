@@ -1,0 +1,20 @@
+---
+- name: Interface config
+  hosts: all
+  gather_facts: no
+  connection: local  
+  tasks:
+    - name: Add VLAN10 to Ethernet1 in access mode
+      eos_l2_interface:
+        authorize: yes
+        name: Ethernet1
+        mode: access
+        access_vlan: 10
+
+    - name: Add VLAN10 to Ethernet1 in trunk mode with native VLAN for PTP
+      eos_l2_interface:
+        authorize: yes
+        name: Ethernet1
+        mode: trunk
+        native_vlan: 10
+        trunk_allowed_vlans: 10
