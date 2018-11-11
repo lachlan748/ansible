@@ -1,0 +1,104 @@
+{
+    "ansible_facts": {
+        "ansible_net_all_ipv4_addresses": [
+            "10.0.0.11",
+            "10.0.12.3"
+        ],
+        "ansible_net_all_ipv6_addresses": [],
+        "ansible_net_config": "! Command: show running-config\n! device: EOSv-R1 (vEOS, EOS-4.20.5F)\n!\n! boot system flash:/EOS.swi\n!\nagent KernelFib environment KERNELFIB_PROGRAM_ALL_ECMP='true'\n!\nswitchport default mode routed\n!\ntransceiver qsfp default-mode 4x10G\n!\nhostname EOSv-R1\n!\nspanning-tree mode mstp\n!\nenable secret sha512 $6$DqD5EmETHeTUJWht$2BdBXJuJAbv6HvpdPoKL7eR3/y2VvqxrkgGy4aSGFcOexN67BE9WRXSKS9NTrhPGXTFfJrhdEPx4XARuRH6fX0\nno aaa root\n!\nusername ******** privilege 15 secret sha512 $6$CDgFafY6iwi4xt6E$OPke1FJSX7kRwVQi59obRdPyagsg3QKEPisqhtrZ8smuldd/c/CS9py9MJskmSnmd9VRn4fC7MnsIRjZ5kKY51\n!\nvlan 12\n   name vlan_12\n!\ninterface Ethernet1\n   no switchport\n   ip address 10.0.12.3/24\n!\ninterface Ethernet2\n   no switchport\n   ip address 10.0.0.11/24\n!\ninterface Management1\n!\nip routing\n!\nend",
+        "ansible_net_filesystems": [
+            "file:",
+            "flash:",
+            "system:"
+        ],
+        "ansible_net_fqdn": "EOSv-R1",
+        "ansible_net_gather_subset": [
+            "hardware",
+            "default",
+            "interfaces",
+            "config"
+        ],
+        "ansible_net_hostname": "EOSv-R1",
+        "ansible_net_image": "flash:/EOS.swi",
+        "ansible_net_interfaces": {
+            "Ethernet1": {
+                "bandwidth": 1000000000,
+                "description": "",
+                "duplex": "duplexFull",
+                "ipv4": {
+                    "address": "10.0.12.3",
+                    "masklen": 24
+                },
+                "lineprotocol": "up",
+                "macaddress": "00:0c:29:7f:36:ca",
+                "mtu": 1500,
+                "operstatus": "connected",
+                "type": "routed"
+            },
+            "Ethernet2": {
+                "bandwidth": 1000000000,
+                "description": "",
+                "duplex": "duplexFull",
+                "ipv4": {
+                    "address": "10.0.0.11",
+                    "masklen": 24
+                },
+                "lineprotocol": "up",
+                "macaddress": "00:0c:29:7f:36:d4",
+                "mtu": 1500,
+                "operstatus": "connected",
+                "type": "routed"
+            },
+            "Management1": {
+                "bandwidth": 1000000000,
+                "description": "",
+                "duplex": "duplexFull",
+                "ipv4": {},
+                "lineprotocol": "up",
+                "macaddress": "00:0c:29:7f:36:c0",
+                "mtu": 1500,
+                "operstatus": "connected",
+                "type": "routed"
+            }
+        },
+        "ansible_net_memfree_mb": 3159,
+        "ansible_net_memtotal_mb": 3916,
+        "ansible_net_model": "vEOS",
+        "ansible_net_neighbors": {
+            "Ethernet1": [
+                {
+                    "host": "EOSv-R1",
+                    "port": "Management1"
+                },
+                {
+                    "host": "EOSv-R1",
+                    "port": "Ethernet2"
+                }
+            ],
+            "Ethernet2": [
+                {
+                    "host": "EOSv-R1",
+                    "port": "Management1"
+                },
+                {
+                    "host": "EOSv-R1",
+                    "port": "Ethernet1"
+                }
+            ],
+            "Management1": [
+                {
+                    "host": "EOSv-R1",
+                    "port": "Ethernet1"
+                },
+                {
+                    "host": "EOSv-R1",
+                    "port": "Ethernet2"
+                }
+            ]
+        },
+        "ansible_net_serialnum": "AC8C7DB1436655EBE62C3054874E4B1F",
+        "ansible_net_version": "4.20.5F"
+    },
+    "changed": false,
+    "failed": false
+}
