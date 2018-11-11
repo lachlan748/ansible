@@ -1,0 +1,31 @@
+---
+- name: Set Ethernet1 to default config
+  hosts: all
+  gather_facts: no
+  connection: local
+  tasks:
+  - eos_command:
+      provider:
+        authorize: yes
+      commands:
+        - conf t
+        - default interface Ethernet1
+        - end
+        - wr mem
+
+- name: Setup new config
+  hosts: all
+  gather_facts: no
+  connection: local  
+  tasks:
+    - name: Setup Ethernet1 as L3 port with IPv4
+      eos_l3_interface:
+        authorize: yes
+        name: Ethernet1
+        ipv4: 192.168.1.1/24
+
+    - name: Setup new SVI VLAN100 with IPv4
+      eos_l3_interface:
+        authorize: yes
+        name: Vlan100
+        ipv4: 192.168.2.1/24
