@@ -1,0 +1,8 @@
+---
+bgp_topology:
+  spine_01:
+    ibgp_neigh: [spine_02] 
+    ebgp_neigh: [leaf_01, leaf_02]
+  spine_02:
+    ibgp_neigh: [spine_01] 
+    ebgp_neigh: [leaf_01, leaf_02]
