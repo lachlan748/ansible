@@ -1,5 +1,0 @@
----
-- name: Create header configuration
-  template: 
-    src: main.j2 
-    dest: ./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.001
