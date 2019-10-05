@@ -1,0 +1,34 @@
+!
+spanning-tree mode rapid-pvst
+{% set vlan_list = [] %}
+{% for vlan in vlans %}
+{{ vlan_list.append(vlan.number|string) }}{% endfor %}
+{% if inventory_hostname.endswith('01') %}
+spanning-tree vlan {{ ','.join(vlan_list) }} priority 0
+{% else %}
+spanning-tree vlan {{ ','.join(vlan_list) }} priority 4096
+{% endif %}
+!
+{% for vlan in vlans %}
+vlan {{ vlan.number }}
+ name {{ vlan.name }}
+!
+{% endfor %}
+{% for vlan in vlans %}
+interface Vlan{{ vlan.number }}
+ description {{ vlan.name | upper }}/{{ vlan.description }}
+{% if inventory_hostname.endswith('01') %}
+ ip address {{ vlan.ip | ipaddr('2') | ipaddr('address') }} {{ vlan.ip | ipaddr('netmask') }}
+{% else %}
+ ip address {{ vlan.ip | ipaddr('3') | ipaddr('address') }} {{ vlan.ip | ipaddr('netmask') }}
+{% endif %}
+ ip pim sparse-mode
+ ip helper-address 4.5.6.7
+ standby 1 ip {{ vlan.ip | ipaddr('1') | ipaddr('address') }}
+{% if inventory_hostname.endswith('01') %}
+ standby 1 priority 120
+{% endif %}
+ standby 1 preempt
+ no shutdown
+!
+{% endfor %}

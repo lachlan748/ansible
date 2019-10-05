@@ -1,0 +1,4 @@
+---
+- name: Create L2 trunk configuration
+  template: src=trunks.j2 dest=./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.003
+
