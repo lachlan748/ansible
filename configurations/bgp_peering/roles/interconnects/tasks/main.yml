@@ -1,0 +1,4 @@
+---
+- name: Create interface configuration
+  template: src=interconnects.j2 dest=./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.001
+

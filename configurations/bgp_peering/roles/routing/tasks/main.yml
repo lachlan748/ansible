@@ -1,0 +1,10 @@
+---
+- name: Create Misc Routing configuration
+  template: src=misc_routing.j2 dest=./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.002
+
+- name: Create OSPF configuration
+  template: src=ospf.j2 dest=./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.003
+ 
+- name: Create BGP configuration
+  template: src=bgp.j2 dest=./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.004
+

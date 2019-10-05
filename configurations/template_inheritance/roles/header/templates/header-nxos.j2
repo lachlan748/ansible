@@ -1,0 +1,4 @@
+{% extends 'header.j2' %}
+{% block hostname %}
+hostname {{ inventory_hostname|lower }}
+{% endblock hostname %}

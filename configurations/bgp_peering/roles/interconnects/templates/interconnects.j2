@@ -1,0 +1,14 @@
+{% for interface in l3_intf %}
+interface {{ interface }}
+ description {{ l3_intf[interface].description | upper }}
+{% if interface.startswith('Gigabit') or interface.startswith('Loopback')%}
+ ip address {{ l3_intf[interface].ip_address_mask | ipaddr('address') }} {{ l3_intf[interface].ip_address_mask | ipaddr('netmask') }}
+{% endif %}
+{% if interface.startswith('Vlan') %}
+ ip address {{ l3_intf[interface].ip_address_mask | ipaddr('1') | ipaddr('address') }} {{ l3_intf[interface].ip_address_mask | ipaddr('netmask') }}
+{% endif %}
+!
+{% endfor %}
+!
+!
+!
