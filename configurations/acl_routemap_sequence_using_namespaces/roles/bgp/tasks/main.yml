@@ -1,0 +1,5 @@
+---
+- name: Create bgp configuration
+  template: 
+    src: bgp.j2 
+    dest: ./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.001

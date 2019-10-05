@@ -1,0 +1,17 @@
+!
+{% for vlan in vlans %}
+ip prefix-list MY_VLAN{{ vlan.number }}_{{ vlan.name.split('_')[0] }}_{{ vlan.name.split('_')[1] }}
+  permit {{ vlan.ip }}
+!
+{% endfor %}
+{% set ns_rmap = namespace(items=10) %}
+{% for vlan in vlans %}
+route-map MY_LOCAL_VLANS permit {{ ns_rmap.items }}
+  match ip address prefix-list MY_VLAN{{ vlan.number }}_{{ vlan.name.split('_')[0] }}_{{ vlan.name.split('_')[1] }}
+!
+{% set ns_rmap.items = ns_rmap.items + 10 %}
+{% endfor %}
+router bgp 12345
+  neighbor 1.1.1.1 remote-as 23456
+  redistribute connected route-map MY_LOCAL_VLANS
+!
