@@ -24,11 +24,11 @@ interface Vlan{{ vlan.number }}
 {% endif %}
  ip pim sparse-mode
  ip helper-address 4.5.6.7
- standby {{ vlan.number }} ip {{ vlan.ip | ipaddr('1') | ipaddr('address') }}
+ standby 1 ip {{ vlan.ip | ipaddr('1') | ipaddr('address') }}
 {% if inventory_hostname.endswith('01') %}
- standby {{ vlan.number }} priority 120
+ standby 1 priority 120
 {% endif %}
- standby {{ vlan.number }} preempt
+ standby 1 preempt
  no shutdown
 !
 {% endfor %}
