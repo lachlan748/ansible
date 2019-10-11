@@ -1,0 +1,10 @@
+interface GigabitEthernet1/48
+ description Interswitch Trunk
+ load-interval 5
+{% set vlan_list = [] %}
+{% for vlan in shared_vlans %}
+{{ vlan_list.append(vlan.number|string) }}{% endfor %}
+ switchport trunk allowed vlan {{ ','.join(vlan_list) }}
+ switchport mode trunk
+ no shutdown
+!

@@ -1,0 +1,11 @@
+---
+shared_vlans:
+  100:
+    ip: 192.168.100.0/24
+    description: WEB_SERVERS
+  101:
+    ip: 192.168.101.0/24
+    description: APP_SERVERS
+  102:
+    ip: 192.168.102.0/24
+    description: DB_SERVERS

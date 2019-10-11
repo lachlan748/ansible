@@ -1,0 +1,27 @@
+!
+spanning-tree mode rapid-pvst
+{% set vlan_list = [] %}
+{% for vlan, vlan_data in shared_vlans|dictsort %}
+{{ vlan_list.append(vlan|string) }}{% endfor %}
+{% if inventory_hostname.endswith('01') %}
+spanning-tree vlan {{ ','.join(vlan_list) }} priority 0
+{% else %}
+spanning-tree vlan {{ ','.join(vlan_list) }} priority 4096
+{% endif %}
+{% for vlan, vlan_data in my_vlans|dictsort %}
+spanning-tree vlan {{ vlan }} priority 16384
+{% endfor %}
+!
+{# First, combine both shared_vlans and my_vlans into a single dict #}
+{% set combined_vlans = {} %}
+{# Second, add each dict to new dict using jinja 'do' extension, see ansible.cfg #}
+{% do combined_vlans.update(shared_vlans) %}
+{% do combined_vlans.update(my_vlans) %}
+{# Third, now iterate over new dict to grab vlan list #}
+{% for vlan, vlan_data in combined_vlans|dictsort %}
+vlan {{ vlan }}
+ name {{ vlan_data.description }}
+!
+{% endfor %}
+!
+
