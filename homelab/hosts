@@ -1,0 +1,12 @@
+[ce]
+R01 ansible_host=10.1.1.1
+R05 ansible_host=10.1.1.5
+
+[pe]
+R02 ansible_host=10.1.1.2
+R03 ansible_host=10.1.1.3
+R04 ansible_host=10.1.1.4
+
+[ios:children]
+ce
+pe

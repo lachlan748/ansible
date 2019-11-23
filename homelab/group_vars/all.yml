@@ -1,0 +1,10 @@
+---
+domain_name: "test.com"
+
+users:
+  - username: cisco
+    password: cisco
+  - username: test
+    password: test
+
+secret: cisco

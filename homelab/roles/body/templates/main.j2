@@ -1,0 +1,26 @@
+!
+!
+no ip domain lookup
+ip domain name {{ domain_name }}
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+multilink bundle-name authenticated
+!
+!
+{% for x in users %}
+username {{ x.username }} privilege 15 secret 0 {{ x.password }}
+{% endfor %}
+!
+redundancy
+ mode none
+!
+!
