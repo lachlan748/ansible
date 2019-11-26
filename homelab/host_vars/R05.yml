@@ -1,4 +1,6 @@
 ---
+my_asn: 35
+
 interfaces:
   Loopback0:
     ip: 150.1.5.5/32
@@ -22,10 +24,16 @@ interfaces:
     ip: 155.1.45.5/24
     description: link_to_r4
     encapsulation: 45
-    ospf:
-      process: 1
-      area: 0
-      network_type: "point-to-point"
-      password: myospfpassword
+#    ospf:
+#      process: 1
+#      area: 0
+#      network_type: "point-to-point"
+#      password: myospfpassword
     pim: true
     enabled: true
+
+bgp:
+  - peer: 150.1.3.3
+    asn: 35
+    update_source: Loopback0
+    next_hop_self: True

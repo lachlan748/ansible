@@ -8,16 +8,12 @@
         path: files/staging/{{ inventory_hostname }}
         state: directory
         mode: 0755
-
-- hosts: all
-  gather_facts: false
-  connection: local
-  tasks:
     - name: Create completion folder
       file:
         path: files/complete
         state: directory
         mode: 0755
+  tags: build
 
 - hosts: all
   gather_facts: false
@@ -28,7 +24,9 @@
     - body
     - interface
     - ospf
+    - bgp
     - footer
+  tags: build
 
 - name: Create configuration files
   hosts: all
@@ -39,6 +37,7 @@
      assemble:  
        src: "files/staging/{{ inventory_hostname }}/" 
        dest: "files/complete/{{ inventory_hostname }}_final.cfg"
+  tags: build
 
 - name: Push config to production
   hosts: all
@@ -51,3 +50,4 @@
     - name: Saving config to node
       ios_config:
         save_when: modified
+  tags: push
