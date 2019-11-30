@@ -3,10 +3,12 @@ virtual-service csr_mgmt
 !
 ip forward-protocol nd
 !
+ip pim rp-address {{ rp_address }} 10
 no ip http server
 no ip http secure-server
 !
 !
+access-list 10 permit 239.0.0.0 0.0.0.255
 !
 !
 control-plane
@@ -23,5 +25,8 @@ line vty 5 15
  login local
  transport input all
 !
+{% for server in ntp_servers %}
+ntp server vrf MGMT {{ server }}
+{% endfor %}
 !
 end
