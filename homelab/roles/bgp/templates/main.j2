@@ -14,9 +14,9 @@ router bgp {{ my_asn }}
  !
  address-family ipv4
 {% for ifname, ifdata in interfaces|dictsort %}
-{%      if ifname in ['Loopback0', 'GigabitEthernet3'] %}
+{#%      if ifname in ['Loopback0', 'GigabitEthernet3'] %#}
   network {{ ifdata.ip | ipaddr('network') }} mask {{ ifdata.ip | ipaddr('netmask') }}
-{%      endif %}
+{#%      endif %#}
 {% endfor %}
 {% for neigh in bgp %}
   neighbor {{ neigh.peer }} activate
