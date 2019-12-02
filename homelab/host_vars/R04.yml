@@ -53,6 +53,12 @@ interfaces:
 #      password: myospfpassword
     pim: true
     enabled: true
+  GigabitEthernet3:
+    ip: 155.1.56.1/24
+    description: link_to_ubuntu_multicast
+    pim: true
+    enabled: true
+    hsrp: 155.1.56.5
 
 bgp:
   - peer: 155.1.24.2

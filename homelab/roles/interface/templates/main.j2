@@ -22,8 +22,17 @@ interface {{ ifname }}
 {%		endif %}
  ip ospf {{ ifdata.ospf.process }} area {{ ifdata.ospf.area }}
 {% 	endif %}
+{%	if ifdata.hsrp is defined %}
+ standby 1 ip {{ ifdata.hsrp }}
+{%		if ifdata.hsrp_priority is defined %}
+ standby 1 priority {{ ifdata.hsrp_priority }}
+{%		endif %}
+ standby 1 preempt
+{%	endif %}
 {%      if ifdata.enabled == false %}
  shutdown
+{%	else %}
+ no shutdown 
 {%      endif %}
 !
 {% endfor %}
