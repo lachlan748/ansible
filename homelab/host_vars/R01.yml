@@ -9,6 +9,7 @@ interfaces:
       process: 1
       area: 0
     pim: true
+    pim_join: 239.0.0.1
     enabled: true
   GigabitEthernet1.12:
     ip: 155.1.12.1/24

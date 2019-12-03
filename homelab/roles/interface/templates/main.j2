@@ -12,6 +12,9 @@ interface {{ ifname }}
 {%      if ifdata.pim is defined and ifdata.pim == true %}
  ip pim sparse-mode
 {%      endif %}
+{%	if ifdata.pim_join is defined %}
+ ip igmp join-group {{ ifdata.pim_join }}
+{%	endif %}
 {%	if ifdata.ospf is defined %}
 {%		if ifdata.ospf.password is defined %}
  ip ospf authentication message-digest
