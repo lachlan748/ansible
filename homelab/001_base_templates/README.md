@@ -11,4 +11,4 @@ The playbook has several parts including:
 4. Concatenate config snippets into a single file, dump to complete folder
 5. Push completed config files to nodes.
 
-![Image of topology](https://github.com/lachlan748/ansible/blob/master/homelab/homelab.png)
+![Image of topology](https://github.com/lachlan748/ansible/blob/master/homelab/001_base_templates/homelab.png)
