@@ -4,11 +4,6 @@ The topology includes all interface config plus a flat OSPF area 0 control-plane
 
 No multicast or BGP is included. 
 
-The playbook has several parts including:
-1. Create a staging folder to store config snippets (modules)
-2. Create a final 'complete' folder to final config files
-3. Execute ansible roles to build config snippets, dump to staging folder per node
-4. Concatenate config snippets into a single file, dump to complete folder
-5. Push completed config files to nodes.
+Note: the template configuration is pushed to each device via napalm-ansible. Ensure you have this package installed.
 
 ![Image of topology](https://github.com/lachlan748/ansible/blob/master/homelab/001_base_templates/homelab.png)

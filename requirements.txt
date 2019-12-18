@@ -1,4 +1,6 @@
-ansible==2.8.5
+ansible==2.9.2
 docker==3.7.2
 netaddr==0.7.19
 netmiko==2.4.2
+napalm-ansible==1.0.0
+napalm==2.5.0
