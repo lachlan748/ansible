@@ -1,0 +1,63 @@
+---
+my_asn: 12
+
+interfaces:
+  Loopback0:
+    ip: 150.1.2.2/32
+    description: mgmt_loopback
+    ospf:
+      process: 1
+      area: 0
+    enabled: true
+  Loopback1:
+    i50.1.2.2/32
+    description: mgmt_loopback
+    ospf:
+      process: 1
+      area: 0
+    enabled: true
+  GigabitEthernet1.12:
+    ip: 155.1.12.2/24
+    description: link_to_r1
+    encapsulation: 12
+    ospf:
+      process: 1
+      area: 0
+      network_type: "point-to-point"
+      password: myospfpassword
+    pim: true
+    enabled: true
+  GigabitEthernet1.23:
+    ip: 155.1.23.2/24
+    description: link_to_r3
+    encapsulation: 23
+#    ospf:
+#      process: 1
+#      area: 0
+#      network_type: "point-to-point"
+#      password: myospfpassword
+    pim: true
+    enabled: true
+  GigabitEthernet1.24:
+    ip: 155.1.24.2/24
+    description: link_to_r4
+    encapsulation: 24
+#    ospf:
+#      process: 1
+#      area: 0
+#      network_type: "point-to-point"
+#      password: myospfpassword
+    pim: true
+    enabled: true
+
+bgp:
+  - peer: 150.1.1.1
+    asn: 12
+    update_source: Loopback0
+    next_hop_self: True
+  - peer: 155.1.23.3
+    asn: 35
+  - peer: 155.1.24.4
+    asn: 4
+
+rp_address: 150.1.2.2

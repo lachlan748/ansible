@@ -1,0 +1,29 @@
+!
+virtual-service csr_mgmt
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ exec-timeout 0 0
+ login local
+ transport input all
+line vty 5 15
+ exec-timeout 0 0
+ login local
+ transport input all
+!
+{% for server in ntp_servers %}
+ntp server vrf MGMT {{ server }}
+{% endfor %}
+!
+end

@@ -1,0 +1,15 @@
+---
+domain_name: "test.com"
+
+users:
+  - username: cisco
+    password: cisco
+  - username: test
+    password: test
+
+secret: cisco
+
+ntp_servers:
+  - 10.1.1.100
+
+rp_address: 150.1.3.3

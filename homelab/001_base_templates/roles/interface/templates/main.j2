@@ -1,0 +1,47 @@
+{% for ifname,ifdata in interfaces|ios_sort %}
+interface {{ ifname }}
+{%      if ifdata.description is defined %}
+ description {{ ifdata.description|upper }}
+{%      endif %}
+{%	if ifdata.encapsulation is defined %}
+ encapsulation dot1Q {{ ifdata.encapsulation }}
+{%	endif %}
+{%      if ifdata.vrf is defined %}
+ ip vrf forwarding {{ ifdata.vrf }}
+{%      endif %}
+{%      if ifdata.ip is defined %}
+ ip address {{ ifdata.ip | ipaddr('address') }} {{ ifdata.ip | ipaddr('netmask') }}
+{%      endif %}
+{%      if ifdata.pim is defined and ifdata.pim == true %}
+ ip pim sparse-mode
+{%      endif %}
+{%	if ifdata.pim_join is defined %}
+ ip igmp join-group {{ ifdata.pim_join }}
+{%	endif %}
+{%	if ifdata.ospf is defined %}
+{%		if ifdata.ospf.password is defined %}
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 0 {{ ifdata.ospf.password }}
+{%		endif %}
+{%		if ifdata.ospf.network_type is defined %}
+ ip ospf network {{ ifdata.ospf.network_type }}
+{%		endif %}
+ ip ospf {{ ifdata.ospf.process }} area {{ ifdata.ospf.area }}
+{% 	endif %}
+{%	if ifdata.hsrp is defined %}
+ standby 1 ip {{ ifdata.hsrp }}
+{%		if ifdata.hsrp_priority is defined %}
+ standby 1 priority {{ ifdata.hsrp_priority }}
+{%		endif %}
+ standby 1 preempt
+{%	endif %}
+{%      if ifdata.enabled == false %}
+ shutdown
+{%	else %}
+ no shutdown 
+{%      endif %}
+!
+{% endfor %}
+interface GigabitEthernet1
+ no shutdown
+!

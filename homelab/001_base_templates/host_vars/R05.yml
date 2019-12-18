@@ -1,0 +1,41 @@
+---
+interfaces:
+  Loopback0:
+    ip: 150.1.5.5/32
+    description: mgmt_loopback
+    ospf:
+      process: 1
+      area: 0
+    pim: true
+    enabled: true
+  GigabitEthernet1.35:
+    ip: 155.1.35.5/24
+    description: link_to_r3
+    encapsulation: 35
+    ospf:
+      process: 1
+      area: 0
+      network_type: "point-to-point"
+      password: myospfpassword
+    pim: true
+    enabled: true
+  GigabitEthernet1.45:
+    ip: 155.1.45.5/24
+    description: link_to_r4
+    encapsulation: 45
+    ospf:
+      process: 1
+      area: 0
+      network_type: "point-to-point"
+      password: myospfpassword
+    pim: true
+    enabled: true
+  GigabitEthernet3:
+    ip: 155.1.56.2/24
+    description: link_to_ubuntu_multicast
+    pim: true
+    enabled: true
+  GigabitEthernet2:
+    ip: 10.1.1.5/24
+    vrf: MGMT
+    enabled: true
