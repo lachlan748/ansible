@@ -38,18 +38,34 @@
        dest: "files/complete/{{ inventory_hostname }}_final.cfg"
   tags: build
 
-- name: Push config to production
+#- name: Push config to production
+#  hosts: all
+#  gather_facts: false
+#  connection: local
+#  become: true
+#  tasks: 
+#    - name: NAPALM replace config
+#      napalm_install_config:
+#        config_file: ./files/complete/{{ inventory_hostname }}_final.cfg
+#        commit_changes: false
+#        replace_config: true
+#  tags: push
+
+- name: Push config via NAPALM
   hosts: all
   gather_facts: false
   connection: local
-  tasks: 
-    - name: Loading config to node
-      ios_config:
-        src: "./files/complete/{{ inventory_hostname }}_final.cfg"
-    - name: Check startup-config against running-config
-      ios_config:
-        diff_against: startup
-    - name: Saving config to node
-      ios_config:
-        save_when: modified
-  tags: push
+  become: true
+  tasks:
+    - napalm_install_config:
+        config_file: "./files/complete/{{ inventory_hostname }}_final.cfg"
+        commit_changes: true
+        replace_config: true
+        hostname: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        dev_os: "{{ ansible_network_os }}"
+        password: "{{ ansible_ssh_pass }}"
+        timeout: 20
+        get_diffs: false
+      register: result
+
