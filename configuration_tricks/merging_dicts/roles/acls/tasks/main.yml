@@ -1,0 +1,5 @@
+---
+- name: Create acls configuration
+  template: 
+    src: acls.j2 
+    dest: ./files/staging/{{inventory_hostname}}/{{inventory_hostname}}.001

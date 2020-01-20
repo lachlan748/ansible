@@ -1,6 +1,0 @@
-!
-hostname leaf_02
-!
-spanning-tree mode mst
-!
-more config goes here...

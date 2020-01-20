@@ -2,9 +2,6 @@ ansible==2.9.2
 docker==3.7.2
 netaddr==0.7.19
 netmiko==2.4.2
-<<<<<<< HEAD
-yamllint==1.16.0
-=======
 napalm-ansible==1.0.0
 napalm==2.5.0
->>>>>>> 4a429da3a6df6a60ec5c22908d9a32ea25eea325
+yamllint==1.16.0

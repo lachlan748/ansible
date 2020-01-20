@@ -1,0 +1,25 @@
+{#% for line in rp_acls %}
+{{ line }}
+{% endfor %#}
+
+{#% set acl_groups = [] %}
+{% for line in rp_acls %}{{ acl_groups.append(line) }}{% endfor %}
+{% for line in boundary_acls %}{{ acl_groups.append(line) }}{% endfor %#}
+{#{ acl_groups|join(',') }#}
+
+{#% for line in acl_groups %}
+{{ line }}
+{% endfor %#}
+
+# old way
+{% for line, data in rp_acls|dictsort %}
+{{ line }}
+{{ data }}
+{% endfor %}
+{% for line, data in boundary_acls|dictsort %}
+{{ line }}
+{{ data }}
+{% endfor %}
+
+# combined way
+
