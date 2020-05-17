@@ -1,0 +1,16 @@
+---
+- name: Backup Config
+  hosts: all
+  gather_facts: no
+  connection: local  
+  tasks:
+    - name: Gathering ios configuration
+      ios_config:
+        backup: yes
+      register: switch_backups
+      when: ansible_network_os == 'ios'
+    - name: Gathering nxos configuration
+      nxos_config:
+        backup: yes
+      register: switch_backups
+      when: ansible_network_os == 'nxos'

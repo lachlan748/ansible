@@ -1,0 +1,17 @@
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no platform punt-keepalive disable-kernel-core
+platform console serial
+!
+hostname {{ inventory_hostname|upper }}
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 0 {{ secret }}
+!
+no aaa new-model
+!

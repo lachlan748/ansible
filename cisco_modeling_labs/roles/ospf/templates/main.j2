@@ -1,0 +1,8 @@
+router ospf 1
+{% for ifname, ifdata in interfaces|dictsort %}
+{%	if ifname == 'Loopback0' %}
+ router-id {{ ifdata.ip | ipaddr('address') }}
+{%	endif %}
+{% endfor %}
+!
+!
