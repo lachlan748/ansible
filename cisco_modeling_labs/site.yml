@@ -20,11 +20,11 @@
   connection: local
   roles:
     - header
-    - vrf
+#    - vrf
     - body
-    - interface
-    - ospf
-    - bgp
+#    - interface
+#    - ospf
+#    - bgp
     - footer
   tags: build
 

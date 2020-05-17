@@ -9,8 +9,3 @@
         backup: yes
       register: switch_backups
       when: ansible_network_os == 'ios'
-    - name: Gathering nxos configuration
-      nxos_config:
-        backup: yes
-      register: switch_backups
-      when: ansible_network_os == 'nxos'

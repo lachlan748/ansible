@@ -1,9 +1,6 @@
 !
-version 15.4
 service timestamps debug datetime msec
 service timestamps log datetime msec
-no platform punt-keepalive disable-kernel-core
-platform console serial
 !
 hostname {{ inventory_hostname|upper }}
 !

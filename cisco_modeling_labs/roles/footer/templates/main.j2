@@ -1,6 +1,4 @@
 !
-virtual-service csr_mgmt
-!
 ip forward-protocol nd
 !
 ip pim rp-address {{ rp_address }} 10
@@ -13,6 +11,9 @@ access-list 10 permit 239.0.0.0 0.0.0.255
 !
 control-plane
 !
+no banner login
+no banner incoming
+no banner exec
 !
 line con 0
  stopbits 1
