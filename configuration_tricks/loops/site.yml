@@ -1,0 +1,26 @@
+---
+- name: Add multiple VLANs to test NXOS switch hosted on CML 2.0
+  hosts: all
+  gather_facts: false
+  connection: network_cli
+  vars:
+    vlans: {
+        "100": {"name": "app_vlan_100", "ip": "10.0.1.1"},
+        "200": {"name": "app_vlan_200", "ip": "10.0.2.1"},
+        "300": {"name": "app_vlan_300", "ip": "10.0.3.1"},
+           }
+
+  tasks:
+    - name: add vlans
+      nxos_config:
+        lines:
+          - vlan {{ item.key }}
+      with_dict: "{{ vlans }}"
+
+    - name: configure vlans
+      nxos_config:
+        lines:
+          - description {{ item.value.name }}
+          - ip address {{ item.value.ip }}/24
+        parents: interface vlan {{ item.key }}
+      with_dict: "{{ vlans }}"
