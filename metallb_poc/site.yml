@@ -1,0 +1,66 @@
+---
+- hosts: all
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Create staging folder
+      file: 
+        path: files/staging/{{ inventory_hostname }}
+        state: directory
+        mode: 0755
+    - name: Create completion folder
+      file:
+        path: files/complete
+        state: directory
+        mode: 0755
+  tags: build
+
+- hosts: all
+  gather_facts: false
+  connection: local
+  roles:
+    - header
+    - body
+    - interface
+    - bgp
+    - footer
+  tags: build
+
+- name: Create configuration files
+  hosts: all
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Assemble final configuration files
+      assemble:  
+        src: "files/staging/{{ inventory_hostname }}/" 
+        dest: "files/complete/{{ inventory_hostname }}_final.cfg"
+    - name: Remove blank lines from config files
+      lineinfile:
+        path: "files/complete/{{ inventory_hostname }}_final.cfg"
+        regexp: '(^\s*$)'
+        state: absent
+  tags: build
+
+- name: Push config to production
+  hosts: all
+  gather_facts: false
+  connection: local
+  tasks: 
+    - name: Loading config to ios node
+      ios_config:
+        src: "./files/complete/{{ inventory_hostname }}_final.cfg"
+      when: ansible_network_os == 'ios'
+    - name: Loading config to eos node
+      eos_config:
+        src: "./files/complete/{{ inventory_hostname }}_final.cfg"
+      when: ansible_network_os == 'eos'
+    - name: Saving config to node
+      ios_config:
+        save_when: modified
+      when: ansible_network_os == 'ios'
+    - name: Saving config to node
+      eos_config:
+        save_when: modified
+      when: ansible_network_os == 'eos'
+  tags: push

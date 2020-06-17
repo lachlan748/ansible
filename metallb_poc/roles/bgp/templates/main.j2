@@ -1,0 +1,58 @@
+{% if ansible_network_os == 'eos' %}
+ip routing
+no ip routing vrf MGMT
+!
+{% endif %}
+router bgp {{ my_asn }}
+{% if ansible_network_os == 'ios' %}
+{% 	for ifname, ifdata in interfaces|dictsort %}
+{%		if ifname == 'Loopback0' %}
+ bgp router-id {{ ifdata.ip | ipaddr('address') }}
+{%		endif %}
+{% 	endfor %}
+ bgp log-neighbor-changes
+{% 	for neigh in bgp %}
+ neighbor {{ neigh.peer }} remote-as {{ neigh.asn }}
+{% 		if neigh.update_source is defined %}
+ neighbor {{ neigh.peer }} update-source {{ neigh.update_source }}
+{%		endif %}
+{% 	endfor %}
+ !
+ address-family ipv4
+{% 	for ifname, ifdata in interfaces|dictsort %}
+{%      	if ifname in ['Loopback0', 'GigabitEthernet0/1', 'GigabitEthernet0/2'] %}
+  network {{ ifdata.ip | ipaddr('network') }} mask {{ ifdata.ip | ipaddr('netmask') }}
+{%      	endif %}
+{% 	endfor %}
+{% 	for neigh in bgp %}
+  neighbor {{ neigh.peer }} activate
+{%		if neigh.next_hop_self is defined and neigh.next_hop_self == true %}
+  neighbor {{ neigh.peer }} next-hop-self
+{%		endif %}
+{% 	endfor %}
+ exit-address-family
+!
+!
+{% else %}
+{%      for neigh in bgp %}
+   neighbor {{ neigh.peer }} remote-as {{ neigh.asn }}
+   neighbor {{ neigh.peer }} maximum-routes 500
+{%              if neigh.update_source is defined %}
+   neighbor {{ neigh.peer }} update-source {{ neigh.update_source }}
+{%              endif %}
+{%              if neigh.next_hop_self is defined and neigh.next_hop_self == true %}
+   neighbor {{ neigh.peer }} next-hop-self
+{%              endif %}
+{%      endfor %}
+   !
+   address-family ipv4
+{%      for neigh in bgp %}
+     neighbor {{ neigh.peer }} activate
+{%	endfor %}
+{%      for ifname, ifdata in interfaces|dictsort %}
+{%              if ifname not in ['Management1'] %}
+     network {{ ifdata.ip | ipaddr('network') }} mask {{ ifdata.ip | ipaddr('netmask') }}
+{%              endif %}
+{%      endfor %}
+!
+{% endif %}

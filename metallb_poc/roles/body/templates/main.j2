@@ -1,0 +1,24 @@
+{% if ansible_network_os == 'ios' %}
+no ip domain lookup
+ip domain name test.com
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+{% for x in users %}
+username {{ x.username }} privilege 15 secret 0 {{ x.password }}
+{% endfor %}
+!
+{% else %}
+!
+{% for x in users %}
+username {{ x.username }} privilege 15 secret 0 {{ x.password }}
+{% endfor %}
+!
+vrf instance MGMT
+   rd 1:1
+!
+{% endif %}

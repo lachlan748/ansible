@@ -1,0 +1,29 @@
+---
+my_asn: 64513
+
+interfaces:
+  Loopback0:
+    ip: 150.1.3.3/32
+    description: mgmt_loopback
+    enabled: true
+  Management1:
+    ip: 192.168.137.223/24
+    vrf: MGMT
+    description: oob
+    enabled: true
+  Ethernet1:
+    ip: 155.0.0.3/31
+    description: link_to_spine01
+    enabled: true
+  Ethernet12:
+    ip: 155.0.0.6/31
+    description: link_to_leaf02
+    enabled: true
+
+
+bgp:
+  - peer: 155.0.0.2
+    asn: 64512
+  - peer: 155.0.0.7
+    asn: 64513
+    next_hop_self: True

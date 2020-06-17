@@ -1,0 +1,26 @@
+{% if ansible_network_os == 'ios' %}
+!         
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh source-interface GigabitEthernet0/0
+ip ssh version 2
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+!
+line con 0
+line aux 0
+line vty 0 4
+ exec-timeout 0 0
+ login local
+ transport input all
+!
+{% else %}
+{% endif %}
