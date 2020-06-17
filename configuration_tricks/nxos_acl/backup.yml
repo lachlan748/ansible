@@ -1,0 +1,12 @@
+---
+- name: Backup Config
+  hosts: nxos_devices
+  gather_facts: no
+  connection: local  
+  tasks:
+    - name: Gathering configuration
+      nxos_config:
+        backup: yes
+        provider:
+          authorize: yes 
+      register: switch_backups
