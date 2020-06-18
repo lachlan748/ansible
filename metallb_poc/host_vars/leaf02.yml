@@ -15,6 +15,11 @@ interfaces:
     ip: 155.0.0.5/31
     description: link_to_spine02
     enabled: true
+  Ethernet2:
+    mode: trunk
+    description: link_to_k8s_nodes
+    vlans: ['221']
+    enabled: true
   Ethernet12:
     mode: trunk
     description: link_to_leaf01
@@ -37,3 +42,18 @@ bgp:
   - peer: 155.0.0.6
     asn: 64513
     next_hop_self: True
+  - peer: 192.168.221.225
+    asn: 64513
+    peer_group: k8s_nodes
+  - peer: 192.168.221.226
+    asn: 64513
+    peer_group: k8s_nodes
+  - peer: 192.168.221.227
+    asn: 64513
+    peer_group: k8s_nodes
+
+bgp_peer_groups:
+  k8s_nodes:
+    route_reflector_client: True
+    next_hop_self: True
+    description: k8s_nodes_ibgp

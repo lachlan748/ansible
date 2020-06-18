@@ -1,0 +1,40 @@
+---
+my_asn: 64513
+
+interfaces:
+  Loopback0:
+    ip: 150.1.6.6/32
+    description: mgmt_loopback
+    enabled: true
+  Loopback101:
+    ip: 192.168.1.4/32
+    description: k8s_loopback
+    enabled: true
+  Loopback102:
+    ip: 192.168.1.5/32
+    description: k8s_loopback
+    enabled: true
+  Loopback103:
+    ip: 192.168.1.6/32
+    description: k8s_loopback
+    enabled: true
+  GigabitEthernet0/0:
+    ip: 192.168.137.226/24
+    vrf: MGMT
+    description: oob
+    enabled: true
+  GigabitEthernet0/1:
+    enabled: true
+  GigabitEthernet0/1.221:
+    encapsulation: 221
+    ip: 192.168.221.226/24
+    description: K8S_SERVER_VLAN
+    enabled: true
+
+bgp:
+  - peer: 192.168.221.2
+    asn: 64513
+    next_hop_self: True
+  - peer: 192.168.221.3
+    asn: 64513
+    next_hop_self: True

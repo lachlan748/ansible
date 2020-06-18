@@ -30,10 +30,24 @@ router bgp {{ my_asn }}
   neighbor {{ neigh.peer }} next-hop-self
 {%		endif %}
 {% 	endfor %}
+  maximum-paths ibgp 2
  exit-address-family
 !
 !
 {% else %}
+{%      if bgp_peer_groups is defined %}
+{%              for peer, peer_data in bgp_peer_groups|dictsort %}
+   neighbor {{ peer }} peer group
+   neighbor {{ peer }} description {{ peer_data.description|upper }}
+{%                      if peer_data.route_reflector_client is defined and peer_data.route_reflector_client == True %}
+   neighbor {{ peer }} route-reflector-client
+{%                      endif %}
+{%                      if peer_data.next_hop_self is defined and peer_data.next_hop_self == True %}
+   neighbor {{ peer }} next-hop-self
+{%                      endif %}
+   neighbor {{ peer }} maximum-routes 500
+{%              endfor %}
+{%      endif %}
 {%      for neigh in bgp %}
    neighbor {{ neigh.peer }} remote-as {{ neigh.asn }}
    neighbor {{ neigh.peer }} maximum-routes 500
@@ -43,20 +57,10 @@ router bgp {{ my_asn }}
 {%              if neigh.next_hop_self is defined and neigh.next_hop_self == true %}
    neighbor {{ neigh.peer }} next-hop-self
 {%              endif %}
+{%              if neigh.peer_group is defined %}
+   neighbor {{ neigh.peer }} peer group {{ neigh.peer_group }}
+{%              endif %}
 {%      endfor %}
-{%	if bgp_peer_groups is defined %}
-{%		for peer, peer_data in bgp_peer_groups|dictsort %}
-   neighbor {{ peer }} peer group
-   neighbor {{ peer }} description {{ peer_data.description|upper }}
-{%			if peer_data.route_reflector_client is defined and peer_data.route_reflector_client == True %}
-   neighbor {{ peer }} route-reflector-client
-{%			endif %}
-{%			if peer_data.next_hop_self is defined and peer_data.next_hop_self == True %}
-   neighbor {{ peer }} next-hop-self
-{%			endif %}
-   neighbor {{ peer }} maximum-routes 500
-{%      	endfor %}
-{%	endif %}
    !
    address-family ipv4
 {%      for neigh in bgp %}
