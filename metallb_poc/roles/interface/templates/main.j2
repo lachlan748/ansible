@@ -10,11 +10,20 @@ interface {{ ifname }}
  vrf {{ ifdata.vrf }}
 {%		endif %}
 {%	endif %}
+{%	if ifdata.encapsulation is defined %}
+ encapsulation dot1q {{ ifdata.encapsulation }}
+{%	endif %}
 {%      if ifdata.ip is defined %}
-{%		if ansible_network_os == 'eos' and ifname|lower not in ['loopback0', 'management1'] %}
+{%		if ansible_network_os == 'eos' and ifname.lower().startswith('loopback', 'management1') %}
  no switchport
 {%		endif %}
  ip address {{ ifdata.ip | ipaddr('address') }} {{ ifdata.ip | ipaddr('netmask') }}
+{%      endif %}
+{%      if ifdata.mode is defined and ifdata.mode == 'trunk' %}
+{% set clean_vlans = [] %}{% for vlan in ifdata.vlans %}{{ clean_vlans.append(vlan.replace('native ', '')) }}{% endfor %}
+ switchport
+ switchport trunk allowed vlan {{ ','.join(clean_vlans) }}
+ switchport mode trunk
 {%      endif %}
 {%      if ifdata.pim is defined and ifdata.pim == true %}
  ip pim sparse-mode
@@ -29,11 +38,6 @@ interface {{ ifname }}
 {%		endif %}
  standby 1 preempt
 {%	endif %}
-{% 	if ansible_network_os == 'ios' and ifname|lower != 'loopback0' %}
- duplex auto
- speed auto
- media-type rj45
-{% 	endif %}
 {%      if ifdata.enabled == false %}
  shutdown
 {% 	else %}

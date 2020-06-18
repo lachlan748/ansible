@@ -21,6 +21,7 @@
   roles:
     - header
     - body
+    - vlans
     - interface
     - bgp
     - footer

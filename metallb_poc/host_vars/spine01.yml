@@ -20,7 +20,6 @@ interfaces:
     description: link_to_leaf01
     enabled: true
 
-
 bgp:
   - peer: 155.0.0.1
     asn: 64512

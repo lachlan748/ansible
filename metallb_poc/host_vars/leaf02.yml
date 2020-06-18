@@ -16,10 +16,20 @@ interfaces:
     description: link_to_spine02
     enabled: true
   Ethernet12:
-    ip: 155.0.0.7/31
+    mode: trunk
     description: link_to_leaf01
+    vlans: ['10', '221']
     enabled: true
 
+vlans:
+  10:
+    ip: 155.0.0.7/31
+    name: link_to_leaf01
+    vrrp: false
+  221:
+    ip: 192.168.221.0/24
+    name: K8S_SERVER_VLAN
+    vrrp: true
 
 bgp:
   - peer: 155.0.0.4
