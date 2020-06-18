@@ -14,7 +14,7 @@ interface {{ ifname }}
  encapsulation dot1q {{ ifdata.encapsulation }}
 {%	endif %}
 {%      if ifdata.ip is defined %}
-{%		if ansible_network_os == 'eos' and ifname.lower().startswith('loopback', 'management1') %}
+{%		if ansible_network_os == 'eos' and ifname|lower not in ['loopback0', 'management1'] %}
  no switchport
 {%		endif %}
  ip address {{ ifdata.ip | ipaddr('address') }} {{ ifdata.ip | ipaddr('netmask') }}
