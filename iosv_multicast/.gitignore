@@ -3,3 +3,4 @@ venv
 *.retry
 backup/
 .DS_Store
+outputs/

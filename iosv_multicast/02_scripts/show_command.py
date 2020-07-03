@@ -1,12 +1,13 @@
+from datetime import datetime
 from netmiko import ConnectHandler
 from netmiko import NetMikoAuthenticationException, NetMikoTimeoutException
 from jinja2 import Environment, PackageLoader, FileSystemLoader
 from pprint import pprint
-from datetime import datetime
+import concurrent.futures
 import getpass
-import shutil
 import os
 import re
+import shutil
 
 # Get login credentials
 tacacs_username = input("Enter username: ") 
@@ -46,29 +47,39 @@ def process_hosts():
             master[node_name] = data
     return master
 
-def run_commands(master):
+def run_commands(device_data):
     # Send a command to all devices using a for loop:
-    for device, device_data in master.items():
-        try:
-            netconnect = ConnectHandler(**device_data)
-            netconnect.enable()
-            # define an empty dictionary which will store the output for each 'show' command, per device
-            data = {}
-            commands = ["show version",
-                        "show vlan",
-                       ]
-            # connect to each device and run each 'show' command
-            for command in commands:
-                data[command] = netconnect.send_command(command)
-            # copy the populated 'data' dictionary into the master dicionary
-            device_data.setdefault('outputs', data)
-        except NetMikoAuthenticationException:
-            print("\n" + f"{device} SSH login failed, authentication error.")
-        except NetMikoTimeoutException:
-            print("\n" + f"{device} SSH login failed due to timeout.")
-        except Exception as exc:
-            print("\n" + f"{device} Some other exception: { exc }")
-    return master
+    try:
+        netconnect = ConnectHandler(**device_data)
+        netconnect.enable()
+        # define an empty dictionary which will store the output for each 'show' command, per device
+        data = {}
+        commands = ["show version",
+                    "show ip route",
+                    "show ip bgp",
+                    "show ip bgp summ",
+                   ]
+        # connect to each device and run each 'show' command
+        for command in commands:
+            data[command] = netconnect.send_command(command)
+        # copy the populated 'data' dictionary into the master dicionary
+        device_data.setdefault('outputs', data)
+    except NetMikoAuthenticationException:
+        print("\n" + f"{device} SSH login failed, authentication error.")
+    except NetMikoTimeoutException:
+        print("\n" + f"{device} SSH login failed due to timeout.")
+    except Exception as exc:
+        print("\n" + f"{device} Some other exception: { exc }")
+
+def main(master):
+    start_time = datetime.now()
+    with concurrent.futures.ThreadPoolExecutor(15) as executor:
+        futures = {}
+        for device, device_data in master.items():
+            print(f"Gathering data from {device}..." + "\n")
+            futures[executor.submit(run_commands, device_data)] = device
+
+    print("\nElapsed time: " + str(datetime.now() - start_time))
 
 def write_to_file(master):
     # load template file to parse data
@@ -95,8 +106,6 @@ def write_to_file(master):
 
 
 if __name__ == "__main__":
-    start_time = datetime.now()
     data = process_hosts()
-    run_commands(data)
+    main(data)
     write_to_file(data)
-    print("\nElapsed time: " + str(datetime.now() - start_time))
