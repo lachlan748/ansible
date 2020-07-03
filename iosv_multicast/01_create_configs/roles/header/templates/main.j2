@@ -1,0 +1,44 @@
+{% if ansible_network_os == 'ios' %}
+!
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname {{ inventory_hostname|lower }}
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+ip vrf MGMT
+!
+{% else %}
+!
+transceiver qsfp default-mode 4x10G
+!
+service routing protocols model ribd
+!
+hostname {{ inventory_hostname|lower }}
+!
+spanning-tree mode rapid-pvst
+!
+no aaa root
+!
+{% endif %}

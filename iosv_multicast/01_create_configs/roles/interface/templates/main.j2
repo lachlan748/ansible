@@ -1,0 +1,48 @@
+{% for ifname,ifdata in interfaces|ios_sort %}
+interface {{ ifname }}
+{%      if ifdata.description is defined %}
+ description {{ ifdata.description|upper }}
+{%      endif %}
+{%	if ifdata.vrf is defined %}
+{%		if ansible_network_os == 'ios' %}
+ ip vrf forwarding {{ ifdata.vrf }}
+{%		else %}
+ vrf {{ ifdata.vrf }}
+{%		endif %}
+{%	endif %}
+{%	if ifdata.encapsulation is defined %}
+ encapsulation dot1q {{ ifdata.encapsulation }}
+{%	endif %}
+{%      if ifdata.ip is defined %}
+{%		if ansible_network_os == 'eos' and ifname|lower not in ['loopback0', 'management1'] %}
+ no switchport
+{%		endif %}
+ ip address {{ ifdata.ip | ipaddr('address') }} {{ ifdata.ip | ipaddr('netmask') }}
+ ip pim sparse-mode
+{%      endif %}
+{%      if ifdata.mode is defined and ifdata.mode == 'trunk' %}
+{% set clean_vlans = [] %}{% for vlan in ifdata.vlans %}{{ clean_vlans.append(vlan.replace('native ', '')) }}{% endfor %}
+ switchport
+ switchport trunk allowed vlan {{ ','.join(clean_vlans) }}
+ switchport mode trunk
+{%      endif %}
+{%      if ifdata.pim is defined and ifdata.pim == true %}
+ ip pim sparse-mode
+{%      endif %}
+{%	if ifdata.pim_join is defined %}
+ ip igmp join-group {{ ifdata.pim_join }}
+{%	endif %}
+{%	if ifdata.hsrp is defined %}
+ standby 1 ip {{ ifdata.hsrp }}
+{%		if ifdata.hsrp_priority is defined %}
+ standby 1 priority {{ ifdata.hsrp_priority }}
+{%		endif %}
+ standby 1 preempt
+{%	endif %}
+{%      if ifdata.enabled == false %}
+ shutdown
+{% 	else %}
+ no shutdown
+{%      endif %}
+!
+{% endfor %}

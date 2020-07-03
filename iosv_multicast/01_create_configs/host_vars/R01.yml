@@ -1,0 +1,21 @@
+---
+my_asn: 1
+
+interfaces:
+  Loopback0:
+    ip: 150.1.1.1/32
+    description: mgmt_loopback
+    enabled: true
+  GigabitEthernet0/0:
+    ip: 192.168.137.211/24
+    vrf: MGMT
+    description: oob
+    enabled: true
+  GigabitEthernet0/1:
+    ip: 10.0.12.1/24
+    description: link_to_r02
+    enabled: true
+
+bgp:
+  - peer: 10.0.12.2
+    asn: 2

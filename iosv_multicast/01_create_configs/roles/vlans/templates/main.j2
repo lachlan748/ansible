@@ -1,0 +1,47 @@
+{% if vlans is defined %}
+{% 	for vlan,vdata in vlans|dictsort %}
+vlan {{ vlan }}
+ name {{ vdata.name | upper }}
+!
+{%      endfor %}
+{% endif %}
+{% if vlans is defined %}
+{% set clean_vlans = [] %}
+{%      for vlan,vdata in vlans|dictsort %}
+{{ clean_vlans.append(vlan|string) }}
+{%	endfor %}
+{% 	if inventory_hostname.endswith('01') %}
+spanning-tree vlan {{ ','.join(clean_vlans) }} priority 4096
+{%      else %}
+spanning-tree vlan {{ ','.join(clean_vlans) }} priority 8192
+{% 	endif %}
+{% endif %}
+!
+{% if vlans is defined %}
+{% 	for vlan,vdata in vlans|dictsort %}
+interface Vlan{{ vlan }}
+ description {{ vdata.name | upper }}
+{%      	if vdata.vrrp is defined and vdata.vrrp == true %}
+{%              	if inventory_hostname.endswith('01') %}
+ ip address {{ vdata.ip | ipaddr('2') }}
+{%                      else %}
+ ip address {{ vdata.ip | ipaddr('3')}}
+{%                      endif %}
+{%		else %}
+{%              	if inventory_hostname.endswith('01') %}
+ ip address {{ vdata.ip | ipaddr('0') }}
+{%                      else %}
+ ip address {{ vdata.ip | ipaddr('-1') }}
+{%                      endif %}
+{%		endif %}
+{%      	if vdata.vrrp is defined and vdata.vrrp == true %}
+{%              	if inventory_hostname.endswith('01') %}
+ vrrp 1 priority-level 200
+{%                      endif %}
+ vrrp 1 ipv4 {{ vdata.ip | ipaddr(1) | ipaddr('address')  }}
+ vrrp 1 session description {{ vdata.name | upper }}
+ no shutdown
+{%              endif %}
+!
+{%       endfor %}
+{% endif %}

@@ -1,0 +1,31 @@
+---
+my_asn: 7
+
+interfaces:
+  Loopback0:
+    ip: 150.1.7.7/32
+    description: mgmt_loopback
+    enabled: true
+  GigabitEthernet0/0:
+    ip: 192.168.137.217/24
+    vrf: MGMT
+    description: oob
+    enabled: true
+  GigabitEthernet0/1:
+    ip: 10.0.76.7/24
+    description: link_to_r0206
+    enabled: true
+  GigabitEthernet0/2:
+    ip: 10.0.67.7/24
+    description: link_to_r05r06
+    enabled: true
+
+bgp:
+  - peer: 10.0.67.5
+    asn: 5
+  - peer: 10.0.67.6
+    asn: 6
+  - peer: 10.0.76.6
+    asn: 6
+  - peer: 10.0.76.2
+    asn: 2
