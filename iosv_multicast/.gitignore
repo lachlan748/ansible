@@ -2,3 +2,4 @@ venv
 *.pyc
 *.retry
 backup/
+.DS_Store
