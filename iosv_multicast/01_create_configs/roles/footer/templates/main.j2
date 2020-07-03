@@ -9,6 +9,12 @@ ip pim rp-address 150.1.4.4 10
 ip ssh source-interface GigabitEthernet0/0
 ip ssh version 2
 !
+ip access-list extended filter
+ deny   ip 192.168.137.0 0.0.0.255 192.168.137.0 0.0.0.255
+ deny   ip 192.168.137.0 0.0.0.255 host 255.255.255.255
+ deny   ip 192.168.137.0 0.0.0.255 224.0.0.0 0.0.0.255
+ permit ip any any
+!
 ipv6 ioam timestamp
 !
 !
