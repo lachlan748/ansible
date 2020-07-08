@@ -15,6 +15,10 @@ interfaces:
     ip: 10.0.12.1/24
     description: link_to_r02
     enabled: true
+  GigabitEthernet0/2:
+    ip: 192.168.100.02/24
+    description: link_to_tiny_core_client
+    enabled: true
 
 bgp:
   - peer: 10.0.12.2
