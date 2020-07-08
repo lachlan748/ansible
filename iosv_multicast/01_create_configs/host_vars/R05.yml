@@ -16,18 +16,16 @@ interfaces:
     description: link_to_r04
     enabled: true
   GigabitEthernet0/2:
-    ip: 10.0.67.5/24
-    description: link_to_r06r07
+    ip: 10.0.25.5/24
+    description: link_to_r02
     enabled: true
   GigabitEthernet0/3:
     ip: 192.168.200.1/24
-    description: link_to_ubuntu
+    description: link_to_ubuntu_server
     enabled: true
 
 bgp:
   - peer: 10.0.45.4
     asn: 4
-  - peer: 10.0.67.6
-    asn: 6
-  - peer: 10.0.67.7
-    asn: 7
+  - peer: 10.0.25.2
+    asn: 2

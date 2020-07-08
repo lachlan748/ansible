@@ -16,8 +16,8 @@ interfaces:
     description: link_to_r03
     enabled: true
   GigabitEthernet0/2:
-    ip: 10.0.76.2/24
-    description: link_to_r06r07
+    ip: 10.0.25.2/24
+    description: link_to_r05
     enabled: true
   GigabitEthernet0/3:
     ip: 10.0.12.2/24
@@ -29,7 +29,5 @@ bgp:
     asn: 1
   - peer: 10.0.23.3
     asn: 3
-  - peer: 10.0.76.6
-    asn: 6
-  - peer: 10.0.76.7
-    asn: 7
+  - peer: 10.0.25.5
+    asn: 5

@@ -16,8 +16,8 @@ interfaces:
     description: link_to_r02
     enabled: true
   GigabitEthernet0/2:
-    ip: 192.168.100.02/24
-    description: link_to_tiny_core_client
+    ip: 192.168.100.1/24
+    description: link_to_ubuntu_client
     enabled: true
 
 bgp:
