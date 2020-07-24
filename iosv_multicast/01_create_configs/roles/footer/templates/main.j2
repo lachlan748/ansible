@@ -2,6 +2,8 @@
 !         
 ip forward-protocol nd
 !
+no ip flow-export version 5
+no ip flow-export destination 192.168.137.218 5556 vrf MGMT
 !
 no ip http server
 no ip http secure-server
@@ -15,6 +17,7 @@ ip access-list extended filter
  deny   ip 192.168.137.0 0.0.0.255 224.0.0.0 0.0.0.255
  permit ip any any
 !
+logging host 192.168.137.216 vrf MGMT transport udp port 5144
 ipv6 ioam timestamp
 !
 !
