@@ -19,6 +19,10 @@ interfaces:
     ip: 10.0.34.4/24
     description: link_to_r03
     enabled: true
+  GigabitEthernet0/3:
+    ip: 192.168.150.1/24
+    description: link_to_elk
+    enabled: true
 
 bgp:
   - peer: 10.0.34.3

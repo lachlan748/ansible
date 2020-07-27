@@ -18,6 +18,10 @@ interface {{ ifname }}
  no switchport
 {%		endif %}
  ip address {{ ifdata.ip | ipaddr('address') }} {{ ifdata.ip | ipaddr('netmask') }}
+{%		if ifname|lower not in ['gigabitethernet0/0', 'loopback0'] %}
+ ip flow ingress
+ ip flow egress
+{%		endif %}
  ip pim sparse-mode
 {%      endif %}
 {%      if ifdata.mode is defined and ifdata.mode == 'trunk' %}

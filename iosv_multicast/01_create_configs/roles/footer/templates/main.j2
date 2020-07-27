@@ -1,11 +1,16 @@
-{% if ansible_network_os == 'ios' %}
+ip flow-export version 5{% if ansible_network_os == 'ios' %}
 !         
 ip forward-protocol nd
 !
+ip flow-export version 5
+ip flow-export destination 192.168.137.218 5556 vrf MGMT
 !
 no ip http server
 no ip http secure-server
 ip pim rp-address 150.1.4.4 10
+{%      for x in ntp_servers %}
+ip route vrf MGMT {{ x }} 255.255.255.255 192.168.137.1
+{%      endfor %}
 ip ssh source-interface GigabitEthernet0/0
 ip ssh version 2
 !
@@ -30,5 +35,8 @@ line vty 0 4
  login local
  transport input all
 !
+{% 	for x in ntp_servers %}
+ntp server vrf MGMT {{ x }}
+{% 	endfor %}
 {% else %}
 {% endif %}
